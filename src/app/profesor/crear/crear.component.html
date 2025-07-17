@@ -1,0 +1,24 @@
+<mat-card>
+  <mat-card-title>Registrar Nuevo Profesor</mat-card-title>
+  <mat-card-content>
+    <form [formGroup]="profesorForm" (ngSubmit)="onSubmit()">
+
+      <mat-form-field appearance="fill">
+        <mat-label>Nombre</mat-label>
+        <input matInput formControlName="nombre" />
+        <mat-error *ngIf="profesorForm.get('nombre')?.hasError('required')">
+          El nombre es obligatorio
+        </mat-error>
+        <mat-error *ngIf="profesorForm.get('nombre')?.hasError('minlength')">
+          Mínimo 2 caracteres
+        </mat-error>
+      </mat-form-field>
+
+      <button mat-raised-button color="primary" type="submit" [disabled]="profesorForm.invalid">
+        Registrar
+      </button>
+      <button mat-button color="warn" routerLink="/profesores">Cancelar</button>
+
+    </form>
+  </mat-card-content>
+</mat-card>
