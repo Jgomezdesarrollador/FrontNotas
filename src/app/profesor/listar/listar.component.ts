@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { PageEvent } from '@angular/material/paginator';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { ProfesorDto } from 'src/app/models/profesor.dto';
@@ -13,6 +14,9 @@ import { ProfesorService } from 'src/app/services/profesor.service';
 export class ListarComponent implements OnInit {
   displayedColumns: string[] = ['id', 'nombre', 'acciones'];
   dataSource: ProfesorDto[] = [];
+  totalCount = 0;
+  pageSize = 5;
+  currentPage = 1;
 
   constructor(
     private profesorService: ProfesorService,
@@ -25,15 +29,19 @@ export class ListarComponent implements OnInit {
   }
 
   cargarProfesores(): void {
-    this.profesorService.getAll().subscribe({
-      next: (profesores) => {
-        this.dataSource = profesores;
+    this.profesorService.getPaged(this.currentPage, this.pageSize).subscribe({
+      next: res => {
+        this.dataSource = res.items;
+        this.totalCount = res.totalCount;
       },
-      error: err => {
-        this.mostrarMensaje('Error al obtener profesores');
-        console.error(err);
-      }
+      error: err => console.error('Error al cargar profesores paginados', err)
     });
+  }
+
+  onPageChange(event: PageEvent): void {
+    this.currentPage = event.pageIndex + 1;
+    this.pageSize = event.pageSize;
+    this.cargarProfesores();
   }
 
   editarProfesor(id: number): void {

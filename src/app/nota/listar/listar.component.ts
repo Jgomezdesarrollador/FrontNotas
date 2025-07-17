@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { PageEvent } from '@angular/material/paginator';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { NotaDto } from 'src/app/models/nota.dto';
@@ -12,6 +13,9 @@ import { NotaService } from 'src/app/services/nota.service';
 export class ListarComponent implements OnInit {
   displayedColumns: string[] = ['id', 'nombre', 'valor', 'estudiante', 'profesor', 'acciones'];
   dataSource: NotaDto[] = [];
+  totalCount = 0;
+  pageSize = 5;
+  currentPage = 1;
 
   constructor(
     private notaService: NotaService,
@@ -24,15 +28,22 @@ export class ListarComponent implements OnInit {
   }
 
   cargarNotas(): void {
-    this.notaService.getAll().subscribe({
-      next: (notas) => {
-        this.dataSource = notas;
+    this.notaService.getPaged(this.currentPage, this.pageSize).subscribe({
+      next: res => {
+        this.dataSource = res.items;
+        this.totalCount = res.totalCount;
       },
       error: err => {
         this.mostrarMensaje('Error al obtener notas');
         console.error(err);
       }
     });
+  }
+
+  onPageChange(event: PageEvent): void {
+    this.currentPage = event.pageIndex + 1;
+    this.pageSize = event.pageSize;
+    this.cargarNotas();
   }
 
   editarNota(id: number): void {

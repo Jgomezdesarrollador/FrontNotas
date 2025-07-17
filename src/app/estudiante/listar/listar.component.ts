@@ -3,6 +3,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { EstudianteDto } from 'src/app/models/estudiante.dto';
 import { EstudianteService } from 'src/app/services/estudiante.service';
+import { PageEvent } from '@angular/material/paginator';
 
 @Component({
   selector: 'app-listar-estudiante',
@@ -12,6 +13,9 @@ import { EstudianteService } from 'src/app/services/estudiante.service';
 export class ListarComponent implements OnInit {
   displayedColumns: string[] = ['id', 'nombre', 'acciones'];
   dataSource: EstudianteDto[] = [];
+  totalCount: number = 0;
+  pageSize = 5;
+  currentPage = 1;
 
   constructor(
     private estudianteService: EstudianteService,
@@ -24,15 +28,22 @@ export class ListarComponent implements OnInit {
   }
 
   cargarEstudiantes(): void {
-    this.estudianteService.getAll().subscribe({
-      next: (estudiantes) => {
-        this.dataSource = estudiantes;
+    this.estudianteService.getPaged(this.currentPage, this.pageSize).subscribe({
+      next: (res) => {
+        this.dataSource = res.items;
+        this.totalCount = res.totalCount;
       },
       error: err => {
         this.mostrarMensaje('Error al obtener estudiantes');
         console.error(err);
       }
     });
+  }
+
+  onPageChange(event: PageEvent): void {
+    this.currentPage = event.pageIndex + 1;
+    this.pageSize = event.pageSize;
+    this.cargarEstudiantes();
   }
 
   editarEstudiante(id: number): void {

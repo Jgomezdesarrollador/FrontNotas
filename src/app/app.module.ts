@@ -17,6 +17,8 @@ import { EditarComponent as EditarProfesorComponent } from './profesor/editar/ed
 import { ListarComponent as ListarNotaComponent } from './nota/listar/listar.component';
 import { CrearComponent as CrearNotaComponent } from './nota/crear/crear.component';
 import { EditarComponent as EditarNotaComponent } from './nota/editar/editar.component';
+import { MatPaginatorIntl } from '@angular/material/paginator';
+import { getSpanishPaginatorIntl } from './shared/paginator-spanish';
 
 @NgModule({
   declarations: [
@@ -30,7 +32,7 @@ import { EditarComponent as EditarNotaComponent } from './nota/editar/editar.com
     EditarProfesorComponent,
     ListarNotaComponent,
     CrearNotaComponent,
-    EditarNotaComponent
+    EditarNotaComponent,
   ],
   imports: [
     BrowserModule,
@@ -38,9 +40,11 @@ import { EditarComponent as EditarNotaComponent } from './nota/editar/editar.com
     BrowserAnimationsModule,
     MaterialModule,
     ReactiveFormsModule,
-    HttpClientModule,
+    HttpClientModule
   ],
-  providers: [],
+  providers: [
+    { provide: MatPaginatorIntl, useValue: getSpanishPaginatorIntl() }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { ProfesorDto, ProfesorCreateDto, ProfesorUpdateDto } from '../models/profesor.dto';
 import { environment } from 'src/environments/environment';
+import { PagedResult } from '../models/pagination';
 
 @Injectable({ providedIn: 'root' })
 export class ProfesorService {
@@ -28,5 +29,10 @@ export class ProfesorService {
 
   delete(id: number): Observable<void> {
     return this.http.delete<void>(`${this.apiUrl}/${id}`);
+  }
+
+  getPaged(page: number, size: number): Observable<PagedResult<ProfesorDto>> {
+    const params = { page: page.toString(), size: size.toString() };
+    return this.http.get<PagedResult<ProfesorDto>>(`${this.apiUrl}/paged`, { params });
   }
 }

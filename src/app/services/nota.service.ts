@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { NotaDto, NotaCreateDto, NotaUpdateDto } from '../models/nota.dto';
 import { environment } from 'src/environments/environment';
+import { PagedResult } from '../models/pagination';
 
 @Injectable({ providedIn: 'root' })
 export class NotaService {
@@ -28,5 +29,10 @@ export class NotaService {
 
   delete(id: number): Observable<void> {
     return this.http.delete<void>(`${this.apiUrl}/${id}`);
+  }
+
+  getPaged(page: number, size: number): Observable<PagedResult<NotaDto>> {
+    const params = { page: page.toString(), size: size.toString() };
+    return this.http.get<PagedResult<NotaDto>>(`${this.apiUrl}/paged`, { params });
   }
 }
