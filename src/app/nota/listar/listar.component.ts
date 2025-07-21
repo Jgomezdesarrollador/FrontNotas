@@ -53,7 +53,7 @@ export class ListarComponent implements OnInit {
   eliminarNota(id: number): void {
     this.notaService.delete(id).subscribe({
       next: () => {
-        this.mostrarMensaje('Nota Eliminado con éxito');
+        this.mostrarMensaje('Nota eliminado con éxito');
         this.dataSource = this.dataSource.filter(n => n.id !== id);
       },
       error: err => {

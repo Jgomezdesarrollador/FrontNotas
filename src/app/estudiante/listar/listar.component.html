@@ -3,25 +3,22 @@
   <mat-card-actions>
     <button mat-raised-button color="accent" routerLink="/estudiantes/crear">
       <mat-icon>person_add</mat-icon>
-      Nuevo Estudiante
+      Agregar Estudiante
     </button>
   </mat-card-actions>
   <mat-card-content>
     <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
 
-      <!-- ID -->
       <ng-container matColumnDef="id">
         <th mat-header-cell *matHeaderCellDef> ID </th>
         <td mat-cell *matCellDef="let estudiante"> {{ estudiante.id }} </td>
       </ng-container>
 
-      <!-- Nombre -->
       <ng-container matColumnDef="nombre">
         <th mat-header-cell *matHeaderCellDef> Nombre </th>
         <td mat-cell *matCellDef="let estudiante"> {{ estudiante.nombre }} </td>
       </ng-container>
 
-      <!-- Acciones -->
       <ng-container matColumnDef="acciones">
         <th mat-header-cell *matHeaderCellDef> Acciones </th>
         <td mat-cell *matCellDef="let estudiante">

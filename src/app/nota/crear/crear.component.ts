@@ -31,7 +31,7 @@ export class CrearComponent implements OnInit {
   ngOnInit(): void {
     this.notaForm = this.fb.group({
       nombre: ['', [Validators.required]],
-      valor: [0, [Validators.required, Validators.min(0)]],
+      valor: [0, [Validators.required, Validators.min(0), Validators.max(5.0)]],
       idEstudiante: [null, Validators.required],
       idProfesor: [null, Validators.required]
     });

@@ -34,7 +34,7 @@ export class CrearComponent implements OnInit {
 
     this.estudianteService.create(nuevoEstudiante).subscribe({
       next: () => {
-        this.mostrarMensaje('estudiante creado con éxito');
+        this.mostrarMensaje('Estudiante creado con éxito');
         this.router.navigate(['/estudiantes']);
       },
       error: err => {
